@@ -24,23 +24,20 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-teal-500 selection:text-black pb-10">
 
-  <!-- TOP BRAND HEADER (YENİ VE MODERN LOGO BARI) -->
-  <header class="sticky top-0 z-40 bg-[#0F172A]/90 backdrop-blur-xl border-b border-slate-800 px-3.5 py-2.5 flex items-center justify-between shadow-md gap-2">
+  <!-- TOP BRAND HEADER (YENİ VE MODERN LOGO BARI - KESİNTİSİZ TAM İSİM) -->
+  <header class="sticky top-0 z-40 bg-[#0F172A]/95 backdrop-blur-xl border-b border-slate-800/80 px-3.5 py-2.5 flex items-center justify-between shadow-lg gap-2">
     <div class="flex items-center gap-2.5 min-w-0">
       <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-400 flex items-center justify-center text-slate-950 font-black text-lg shadow-md shadow-teal-500/20 shrink-0">
         🐠
       </div>
       <div class="min-w-0">
-        <h1 class="text-xs font-black tracking-wider uppercase text-teal-400 truncate">AquaTrend Akvaryum</h1>
-        <p class="text-[10px] font-bold text-slate-400 truncate">Canlı Bilgi & Uyum Kılavuzu</p>
+        <h1 id="storeBrandTitle" class="text-[13px] font-black tracking-wide uppercase text-teal-400 leading-tight">AquaTrend Akvaryum</h1>
+        <p class="text-[10px] font-bold text-slate-400">Canlı Bilgi & Uyum Kılavuzu</p>
       </div>
     </div>
     <div class="flex items-center gap-1.5 shrink-0">
-      <button onclick="openFishPicker()" class="text-[10px] font-bold text-slate-200 bg-slate-800/90 hover:bg-slate-700 active:scale-95 px-2.5 py-1.5 rounded-xl border border-slate-700 flex items-center gap-1 transition" title="Tüm Canlılar Arasında Geçiş Yap">
-        <span>🔍</span> <span>Canlılar</span>
-      </button>
-      <button onclick="openQrStudio()" class="text-[10px] font-bold text-teal-300 bg-teal-950/90 hover:bg-teal-900 active:scale-95 px-2.5 py-1.5 rounded-xl border border-teal-500/40 flex items-center gap-1 transition shadow-sm" title="QR Kod & Akvaryum Cam Etiketi Hazırla">
-        <span>📱</span> <span>QR & Etiket</span>
+      <button onclick="openFishPicker()" class="text-[10px] font-bold text-teal-200 bg-slate-800/90 hover:bg-slate-700 active:scale-95 px-2.5 py-1.5 rounded-xl border border-teal-500/30 flex items-center gap-1 transition shadow-sm" title="Tüm Canlılar Arasında Geçiş Yap">
+        <span>🔍</span> <span>64 Canlı</span>
       </button>
     </div>
   </header>
@@ -84,11 +81,6 @@
       <div class="relative aspect-video w-full bg-slate-950 overflow-hidden">
         <img id="fishPhoto" src="images/fish/guppy.jpg" alt="Canlı" class="w-full h-full object-cover transition-all duration-300" onerror="this.src='https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=600'">
         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
-
-        <!-- Sağ Üst Hızlı QR Göster Butonu -->
-        <button onclick="openQrStudio('quick')" class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-xl bg-slate-950/80 hover:bg-slate-900 text-teal-300 text-[10px] font-bold border border-teal-500/40 backdrop-blur-md flex items-center gap-1 shadow-lg active:scale-95 transition">
-          <span>🔳</span> <span>QR Kartı</span>
-        </button>
         
         <div class="absolute bottom-2.5 left-3 right-3 flex flex-wrap gap-1.5">
           <span id="badgeMinLiters" class="px-2.5 py-0.5 rounded-lg bg-teal-950/90 text-teal-300 text-[10px] font-bold border border-teal-500/50 backdrop-blur-sm">Min. 40 L</span>
@@ -207,9 +199,14 @@
   </main>
 
   <!-- STORE FOOTER -->
-  <footer class="text-center text-xs text-slate-500 space-y-1 pt-4 border-t border-slate-800/80 px-4">
-    <p class="text-teal-400 font-bold">AquaTrend Akvaryum & PetShop</p>
-    <p class="text-[11px] text-slate-400">Doğru Su Şartları • Sağlıklı Canlı Garantisi</p>
+  <footer class="text-center text-xs text-slate-500 space-y-2 pt-4 border-t border-slate-800/80 px-4">
+    <div>
+      <p id="footerBrandTitle" class="text-teal-400 font-bold">AquaTrend Akvaryum & PetShop</p>
+      <p class="text-[11px] text-slate-400">Doğru Su Şartları • Sağlıklı Canlı Garantisi</p>
+    </div>
+    <button onclick="openQrStudio('builder')" class="text-[10px] text-slate-500 hover:text-teal-400 underline transition">
+      🏷️ Mağaza Cam Etiketi & QR Basım Paneli
+    </button>
   </footer>
 
   <!-- 🔍 HIZLI CANLI SEÇİCİ MODAL (TÜM TÜRLER ARASINDA GEÇİŞ) -->
@@ -554,40 +551,39 @@
       sec.classList.remove('hidden');
       countLbl.textContent = `${fish.varieties.length} Varyete`;
 
-      // 1. "Genel Tür" chip
+      // 1. "Genel Tür" card
       const mainBtn = document.createElement('button');
       const isMainActive = !currentState.activeVariety;
-      mainBtn.className = `flex items-center gap-2 p-1.5 pr-3 rounded-2xl border text-left shrink-0 transition active:scale-95 ${
+      mainBtn.className = `w-28 rounded-2xl border overflow-hidden text-left shrink-0 transition active:scale-95 flex flex-col ${
         isMainActive
-          ? 'bg-teal-950/90 border-teal-400 text-white shadow-md shadow-teal-500/10'
+          ? 'bg-teal-950/90 border-teal-400 text-white shadow-md shadow-teal-500/20'
           : 'bg-slate-950/90 border-slate-800 text-slate-300 hover:border-slate-700'
       }`;
       mainBtn.onclick = () => selectVariety(null);
       mainBtn.innerHTML = `
-        <img src="${normalizeImg(fish.image)}" class="w-9 h-9 rounded-xl object-cover border border-slate-700 shrink-0" onerror="this.src='images/fish/guppy.jpg'">
-        <div>
+        <img src="${normalizeImg(fish.image)}" class="w-full h-16 object-cover border-b border-slate-800" onerror="this.src='images/fish/guppy.jpg'">
+        <div class="p-2">
           <div class="text-[11px] font-extrabold leading-tight">Genel Tür</div>
-          <div class="text-[9px] text-teal-400 font-semibold">Ana Görsel</div>
+          <div class="text-[9px] text-teal-400 font-semibold mt-0.5">Ana Görsel</div>
         </div>
       `;
       scroll.appendChild(mainBtn);
 
-      // 2. Sub-varieties chips
+      // 2. Sub-varieties large photo cards
       fish.varieties.forEach(v => {
         const isActive = currentState.activeVariety && currentState.activeVariety.name === v.name;
         const btn = document.createElement('button');
-        btn.className = `flex items-center gap-2 p-1.5 pr-3 rounded-2xl border text-left shrink-0 transition active:scale-95 ${
+        btn.className = `w-32 rounded-2xl border overflow-hidden text-left shrink-0 transition active:scale-95 flex flex-col ${
           isActive
-            ? 'bg-teal-950/90 border-teal-400 text-white shadow-md shadow-teal-500/10'
+            ? 'bg-teal-950/90 border-teal-400 text-white shadow-md shadow-teal-500/20'
             : 'bg-slate-950/90 border-slate-800 text-slate-300 hover:border-slate-700'
         }`;
         btn.onclick = () => selectVariety(v);
         const vImg = normalizeImg(v.image || fish.image);
         btn.innerHTML = `
-          <img src="${vImg}" class="w-9 h-9 rounded-xl object-cover border border-slate-700 shrink-0" onerror="this.src='${normalizeImg(fish.image)}'">
-          <div class="max-w-[130px]">
-            <div class="text-[11px] font-extrabold leading-tight truncate">${v.name}</div>
-            <div class="text-[9px] text-slate-400 truncate">${v.desc || 'Safkan Varyete'}</div>
+          <img src="${vImg}" class="w-full h-16 object-cover border-b border-slate-800" onerror="this.src='${normalizeImg(fish.image)}'">
+          <div class="p-2">
+            <div class="text-[11px] font-extrabold leading-tight line-clamp-2">${v.name}</div>
           </div>
         `;
         scroll.appendChild(btn);
